@@ -1,47 +1,65 @@
 <?php
-    
-    use JetBrains\PhpStorm\Pure;
+    include "Towar.php";
     
     class Klient
     {
-        private static int $numer =1;
-        private string $nazwa;
         private int $iD;
         public int $pole;
+        private string $nazwa;
+        private static int $numer = 0;
+        private Towar $towar;
         
         public function getId(): int
         {
             return $this->iD;
         }
-        public function setID(int $iD): void
+        
+        public function setId(int $iD): void
         {
-            $this->iD = $iD;
+            $this->$iD = $iD;
         }
+        
         public function getNazwa(): string
         {
             return $this->nazwa;
         }
+        
         public function setNazwa(string $nazwa): void
         {
-            $this->nazwa = $nazwa;
+            $this->$nazwa = $nazwa;
         }
+        
+        public function getTowar(): Towar
+        {
+            return $this->towar;
+        }
+        
+        public function setTowar(Towar $towar): void
+        {
+            $this->towar = $towar;
+        }
+        
         public function __construct(string $nazwa)
         {
-            // echo "Klient został stworzony<br />";
             $this->nazwa = $nazwa;
-            //$this->iD = self::$numer++;
-            $this->iD =1;
-            $this -> pole = 2;
+            $this->iD = self::$numer++;
+            $this->pole = 2;
+            $this->towar = new Towar("null");
+            echo "Hello " . $this->getNazwa() . "<br>";
         }
+        
         public function __destruct()
         {
-            // echo "Klient został zniszczony<br />";
+            echo "Bye: " . $this->getNazwa() . "<br>";
         }
+        
         public function __toString()
         {
-            return "Nazwa: " . $this->getNazwa() . " ID: " . $this->getId();
+            return "Nazwa: " . $this->getNazwa() . " Id: " . $this->getId() . " " . $this->getTowar();
         }
-        public function __isset($name){
+        
+        public function __isset($name)
+        {
             echo "<script>alert('Brak pola $name')</script>";
         }
     }

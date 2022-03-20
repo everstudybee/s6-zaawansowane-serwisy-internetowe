@@ -36,9 +36,9 @@
     $klient2 = new Klient("WSB-NLU");
     
     echo "Klient1<br />";
-    echo $klient1."<br />";
+    echo $klient1 . "<br />";
     echo "Klient2<br />";
-    echo $klient2."<br />";
+    echo $klient2 . "<br />";
     echo "<br />";
     echo '$klient1 == $klient2';
     echo $klient1 == $klient2 ? ", Tak<br />" : ", Nie<br />";
@@ -48,11 +48,60 @@
     
     $klient2->setNazwa("Pepsi");
     echo "Klient1<br />";
-    echo $klient1."<br />";
+    echo $klient1 . "<br />";
     echo "Klient2<br />";
-    echo $klient2."<br />";
+    echo $klient2 . "<br />";
     echo "<br />";
     echo '$klient1 == $klient2';
     echo $klient1 == $klient2 ? ", Tak<br />" : ", Nie<br />";
     echo '$klient1 === $klient2';
     echo $klient1 === $klient2 ? ", Tak<br />" : ", Nie<br />";
+    
+    // Publiczne pole
+    echo "<br /><br />PUBLICZNE POLE<br /><br />";
+    $klient = new Klient("Klient");
+    $klient1 = new StalyKlient("StalyKlient1", 20);
+    $klient2 = new StalyKlient("StalyKlient2", 10);
+    
+    echo isset($klient->pole) ? "Tak" : "Nie";
+    echo "<br>";
+    echo $klient->getTowar()->getNazwa();
+    echo "<br>";
+    $klient->getTowar()->setNazwa("test");
+    echo $klient->getTowar()->getNazwa();
+    echo "<br>";
+    
+    // Klonowanie
+    echo "<br /><br />KLONOWANIE<br /><br />";
+    $klient2 = clone $klient1;
+    
+    echo "Klient1<br />";
+    echo $klient1 . "<br />";
+    echo "Klient2<br />";
+    echo $klient2 . "<br />";
+    
+    echo "Przypisywanie... <br />";
+    $klient1->setNazwa("Sprite");
+    $klient1->getTowar()->setNazwa("AGD");
+    
+    echo "Klient1<br />";
+    echo $klient1 . "<br />";
+    echo "Klient2<br />";
+    echo $klient2 . "<br />";
+    
+    // Serializacja
+    echo "<br /><br />SERIALIZACJA<br /><br />";
+    echo isset($klient) ? $klient . "<br />" : "Brak<br />";
+    
+    session_start();
+    echo "Sesja uruchomiona <br />";
+    $serialized = "SERIALIZED";
+    
+    $_SESSION[$serialized] = serialize($klient);
+    $klient = null;
+    
+    echo isset($klient) ? $klient . "<br />" : "Brak<br />";
+    echo $_SESSION[$serialized] . "<br /><br />";
+    
+    $klient = unserialize($_SESSION[$serialized]);
+    echo isset($klient) ? $klient . "<br />" : "Brak<br />";
